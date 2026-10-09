@@ -150,10 +150,10 @@ $("enviar").onclick = () => {
   const ids = Object.keys(carrinho).map(Number);
   if(!ids.length){ alert("Adiciona pelo menos um curso ao pedido."); return; }
   let total = 0;
-  const linhas = ids.map(id => {
+   const linhas = ids.map(id => {
     const c = CURSOS.find(x => x.id === id), q = carrinho[id];
     total += c.preco * q;
-    return • ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)};
+    return "• " + q + "x " + c.nome + " (" + c.nivel + ", " + c.duracao + ") - " + fmt(c.preco * q);
   });
   const nome = $("nome").value.trim(), horario = $("horario").value.trim();
   let msg = "Olá! Tenho interesse nestes cursos:\n" + linhas.join("\n") + "\nTotal: " + fmt(total);

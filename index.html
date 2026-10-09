@@ -97,7 +97,7 @@ $("rodape-wa").href = "https://wa.me/" + WHATSAPP;
 function chips(){
   const cats = ["Todos", ...new Set(CURSOS.map(c => c.cat))];
   $("chips").innerHTML = cats.map(c =>
-    <button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c===categoria}">${esc(c)}</button>).join("");
+    `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c===categoria}">${esc(c)}</button>`).join("");
   $("chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { categoria = b.dataset.cat; chips(); cursos(); });
 }
 
@@ -116,7 +116,7 @@ function cursos(){
           <span><b>Nível</b>${esc(c.nivel)}</span>
           <span><b>Duração</b>${esc(c.duracao)}</span>
         </div>
-        <div class="preco"><b>${fmt(c.preco)}</b>${c.antes ? <s>${fmt(c.antes)}</s> : ""}</div>
+        <div class="preco"><b>${fmt(c.preco)}</b>${c.antes ? `<s>${fmt(c.antes)}</s>` : ""}</div>
         <button class="btn" type="button" data-add="${c.id}">Adicionar ao pedido</button>
       </div>
     </article>`).join("");
@@ -140,7 +140,7 @@ function pedido(){
       <span class="qtd"><button type="button" data-menos="${id}" aria-label="Menos">−</button>${q}<button type="button" data-mais="${id}" aria-label="Mais">+</button></span>
       <span>${fmt(c.preco * q)}</span>
     </div>`;
-  }).join("") : <p class="vazio">Ainda não escolheste nenhum curso.</p>;
+  }).join("") : `<p class="vazio">Ainda não escolheste nenhum curso.</p>`;
   $("total").textContent = fmt(total);
   $("itens").querySelectorAll("[data-menos]").forEach(b => b.onclick = () => mudar(+b.dataset.menos, -1));
   $("itens").querySelectorAll("[data-mais]").forEach(b => b.onclick = () => mudar(+b.dataset.mais, 1));

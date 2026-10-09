@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Vendas | Aulas de Programação e Inglês</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="painel-aulas.css">
+</head>
+<body>
+
+<div class="faixa">🎓 <b>Promoção:</b> 1.ª aula experimental com desconto. Vagas limitadas!</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Aulas online e presenciais</span>
+    <h1>Aprende a programar e a falar inglês</h1>
+    <p>Aulas práticas com o Teacher Pedro. Escolhe o curso, o nível e a duração e fala comigo pelo WhatsApp.</p>
+    <a class="btn claro" href="#cursos">Ver cursos</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="numeros">
+    <div class="num"><strong>+100</strong><span>alunos ensinados</span></div>
+    <div class="num"><strong>A1–C2</strong><span>todos os níveis de inglês</span></div>
+    <div class="num"><strong>100%</strong><span>aulas práticas</span></div>
+  </div>
+
+  <section id="cursos">
+    <h2>Os nossos cursos</h2>
+    <p class="sub">Adiciona ao pedido e envia por WhatsApp.</p>
+    <div class="chips" id="chips"></div>
+    <div class="grelha" id="grelha"></div>
+  </section>
+
+  <section class="carrinho" id="carrinho">
+    <h2>🛒 O teu pedido</h2>
+    <div id="itens"></div>
+    <div class="total"><span>Total</span><span id="total">0,00</span></div>
+    <div class="campos">
+      <div><label for="nome">O teu nome</label><input id="nome" type="text" placeholder="Ex.: Ana"></div>
+      <div><label for="horario">Horário preferido</label><input id="horario" type="text" placeholder="Ex.: Sábados de manhã"></div>
+    </div>
+    <button class="btn" id="enviar" type="button">Enviar pedido por WhatsApp</button>
+  </section>
+
+  <section>
+    <h2>Como funciona</h2>
+    <p class="sub">Em três passos simples.</p>
+    <div class="passos">
+      <div class="passo"><b>1</b><h3>Escolhe</h3><p>Seleciona o curso e o nível que precisas.</p></div>
+      <div class="passo"><b>2</b><h3>Envia o pedido</h3><p>O pedido segue por WhatsApp com o teu nome e horário.</p></div>
+      <div class="passo"><b>3</b><h3>Começa a aprender</h3><p>Combinamos a data e a primeira aula.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>O que dizem os alunos</h2>
+    <p class="sub">Resultados reais.</p>
+    <div class="dep">
+      <blockquote>“Em poucas semanas fiz a minha primeira app em Python.”— João</blockquote>
+      <blockquote>“Já consigo falar inglês no trabalho sem medo.”— Marta</blockquote>
+      <blockquote>“As aulas de Excel poupam-me horas todas as semanas.”— Carlos</blockquote>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Teacher Pedro · Aulas de programação e inglês · <a id="rodape-wa" href="#" target="_blank" rel="noopener">WhatsApp</a></div>
+</footer>
+
+<script>
+/* ====== EDITA AQUI ======
+   WHATSAPP: número com indicativo, sem + nem espaços.
+   MOEDA: texto junto ao preço.
+   CURSOS: acrescenta, apaga ou muda. "antes" e "selo" são opcionais. */
+const WHATSAPP = "923030010";
+const MOEDA = "Kz";
+
+const CURSOS = [
+  {id:1, nome:"Python do zero", desc:"Variáveis, ciclos, funções e primeiros programas.", cat:"Programação", nivel:"Iniciante", duracao:"4 semanas", preco:20000, selo:"Popular", emoji:"🐍", cor:"#fff1c9"},
+  {id:2, nome:"HTML e CSS", desc:"Cria o teu primeiro website, página a página.", cat:"Programação", nivel:"Iniciante", duracao:"4 semanas", preco:18000, emoji:"🌐", cor:"#e0f5f2"},
+  {id:3, nome:"Apps com Streamlit", desc:"Transforma um script Python numa app online.", cat:"Programação", nivel:"Intermédio", duracao:"3 semanas", preco:22000, emoji:"📊", cor:"#e6e6fb"},
+  {id:4, nome:"Inglês A1–A2", desc:"Primeiras frases, verb to be, present simple.", cat:"Inglês", nivel:"Iniciante", duracao:"8 semanas", preco:25000, antes:30000, selo:"-15%", emoji:"🇬🇧", cor:"#ffe6dd"},
+  {id:5, nome:"Inglês B1–B2", desc:"Conversação, escrita e gramática do dia a dia.", cat:"Inglês", nivel:"Intermédio", duracao:"10 semanas", preco:30000, emoji:"💬", cor:"#ffe6dd"},
+  {id:6, nome:"Inglês C1–C2", desc:"Fluência, vocabulário avançado e preparação para exames.", cat:"Inglês", nivel:"Avançado", duracao:"10 semanas", preco:35000, emoji:"🎯", cor:"#ffe6dd"},
+  {id:7, nome:"Excel básico", desc:"Folhas, tabelas, fórmulas simples e gráficos.", cat:"Excel", nivel:"Iniciante", duracao:"3 semanas", preco:15000, emoji:"📗", cor:"#dff7e8"},
+  {id:8, nome:"Excel avançado", desc:"Macros, VBA, Power Query e dashboards.", cat:"Excel", nivel:"Avançado", duracao:"5 semanas", preco:28000, emoji:"⚙️", cor:"#dff7e8"}
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => n.toLocaleString("pt-PT",{minimumFractionDigits:2,maximumFractionDigits:2}) + " " + MOEDA;
+
+let categoria = "Todos";
+const carrinho = {};
+
+$("rodape-wa").href = "https://wa.me/" + WHATSAPP;
+
+function chips(){
+  const cats = ["Todos", ...new Set(CURSOS.map(c => c.cat))];
+  $("chips").innerHTML = cats.map(c =>
+    `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c===categoria}">${esc(c)}</button>`).join("");
+  $("chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { categoria = b.dataset.cat; chips(); cursos(); });
+}
+
+function cursos(){
+  const lista = CURSOS.filter(c => categoria === "Todos" || c.cat === categoria);
+  $("grelha").innerHTML = lista.map(c => `
+    `<article class="prod">
+      ${c.selo ? `<span class="selo">${esc(c.selo)}</span>` : ""}
+      <div class="topo" style="--cor:${c.cor}">
+        <span class="emoji" aria-hidden="true">${c.emoji}</span>
+        <span class="cat">${esc(c.cat)}</span>
+      </div>
+      <div class="corpo">
+        <h3>${esc(c.nome)}</h3>
+        <p>${esc(c.desc)}</p>
+        <div class="meta">
+          <span><b>Nível</b>${esc(c.nivel)}</span>
+          <span><b>Duração</b>${esc(c.duracao)}</span>
+        </div>
+        <div class="preco"><b>${fmt(c.preco)}</b>${c.antes ? `<s>${fmt(c.antes)}</s>` : ""}</div>
+        <button class="btn" type="button" data-add="${c.id}">Adicionar ao pedido</button>
+      </div>
+    </article>`).join("");
+  $("grelha").querySelectorAll("[data-add]").forEach(b => b.onclick = () => mudar(+b.dataset.add, 1));
+}
+
+function mudar(id, delta){
+  carrinho[id] = Math.max(0, (carrinho[id] || 0) + delta);
+  if(!carrinho[id]) delete carrinho[id];
+  pedido();
+}
+
+function pedido(){
+  const ids = Object.keys(carrinho).map(Number);
+  let total = 0;
+  $("itens").innerHTML = ids.length ? ids.map(id => {
+    const c = CURSOS.find(x => x.id === id), q = carrinho[id];
+    total += c.preco * q;
+    return `<div class="linha">
+      <span>${c.emoji} ${esc(c.nome)}</span>
+      <span class="qtd"><button type="button" data-menos="${id}" aria-label="Menos">−</button>${q}<button type="button" data-mais="${id}" aria-label="Mais">+</button></span>
+      <span>${fmt(c.preco * q)}</span>
+    </div>`;
+  }).join("") : `<p class="vazio">Ainda não escolheste nenhum curso.</p>`;
+  $("total").textContent = fmt(total);
+  $("itens").querySelectorAll("[data-menos]").forEach(b => b.onclick = () => mudar(+b.dataset.menos, -1));
+  $("itens").querySelectorAll("[data-mais]").forEach(b => b.onclick = () => mudar(+b.dataset.mais, 1));
+}
+
+$("enviar").onclick = () => {
+  const ids = Object.keys(carrinho).map(Number);
+  if(!ids.length){ alert("Adiciona pelo menos um curso ao pedido."); return; }
+  let total = 0;
+  const linhas = ids.map(id => {
+    const c = CURSOS.find(x => x.id === id), q = carrinho[id];
+    total += c.preco * q;
+    return • ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)};
+  });
+  const nome = $("nome").value.trim(), horario = $("horario").value.trim();
+  let msg = "Olá! Tenho interesse nestes cursos:\n" + linhas.join("\n") + "\nTotal: " + fmt(total);
+  if(nome) msg += "\nNome: " + nome;
+  if(horario) msg += "\nHorário preferido: " + horario;
+  window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+};
+
+chips(); cursos(); pedido();
+</script>
+</body>
+</html>

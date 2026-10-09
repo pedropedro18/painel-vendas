@@ -108,7 +108,7 @@ function chips(){
 function cursos(){
   const lista = CURSOS.filter(c => categoria === "Todos" || c.cat === categoria);
   $("grelha").innerHTML = lista.map(c => `
-    `<article class="prod">
+    <article class="prod">
       ${c.selo ? `<span class="selo">${esc(c.selo)}</span>` : ""}
       <div class="topo" style="--cor:${c.cor}">
         <span class="emoji" aria-hidden="true">${c.emoji}</span>
@@ -158,7 +158,7 @@ $("enviar").onclick = () => {
   const linhas = ids.map(id => {
     const c = CURSOS.find(x => x.id === id), q = carrinho[id];
     total += c.preco * q;
-    return • ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)};
+    return `• ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)`};
   });
   const nome = $("nome").value.trim(), horario = $("horario").value.trim();
   let msg = "Olá! Tenho interesse nestes cursos:\n" + linhas.join("\n") + "\nTotal: " + fmt(total);

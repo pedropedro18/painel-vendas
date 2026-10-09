@@ -59,9 +59,9 @@
     <h2>O que dizem os alunos</h2>
     <p class="sub">Resultados reais.</p>
     <div class="dep">
-      <blockquote>“Em poucas semanas fiz a minha primeira app em Python.”— João</blockquote>
-      <blockquote>“Já consigo falar inglês no trabalho sem medo.”— Marta</blockquote>
-      <blockquote>“As aulas de Excel poupam-me horas todas as semanas.”— Carlos</blockquote>
+      <blockquote>“Em poucas semanas fiz a minha primeira app em Python.”<cite>— João</cite></blockquote>
+      <blockquote>“Já consigo falar inglês no trabalho sem medo.”<cite>— Marta</cite></blockquote>
+      <blockquote>“As aulas de Excel poupam-me horas todas as semanas.”<cite>— Carlos</cite></blockquote>
     </div>
   </section>
 </main>
@@ -71,11 +71,7 @@
 </footer>
 
 <script>
-/* ====== EDITA AQUI ======
-   WHATSAPP: número com indicativo, sem + nem espaços.
-   MOEDA: texto junto ao preço.
-   CURSOS: acrescenta, apaga ou muda. "antes" e "selo" são opcionais. */
-const WHATSAPP = "923030010";
+const WHATSAPP = "244923030010";
 const MOEDA = "Kz";
 
 const CURSOS = [
@@ -101,15 +97,14 @@ $("rodape-wa").href = "https://wa.me/" + WHATSAPP;
 function chips(){
   const cats = ["Todos", ...new Set(CURSOS.map(c => c.cat))];
   $("chips").innerHTML = cats.map(c =>
-    `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c===categoria}">${esc(c)}</button>`).join("");
+    <button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c===categoria}">${esc(c)}</button>).join("");
   $("chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { categoria = b.dataset.cat; chips(); cursos(); });
 }
 
 function cursos(){
   const lista = CURSOS.filter(c => categoria === "Todos" || c.cat === categoria);
-  $("grelha").innerHTML = lista.map(c => `
-    <article class="prod">
-      ${c.selo ? `<span class="selo">${esc(c.selo)}</span>` : ""}
+  $("grelha").innerHTML = lista.map(c => `<article class="prod">
+      ${c.selo ? <span class="selo">${esc(c.selo)}</span> : ""}
       <div class="topo" style="--cor:${c.cor}">
         <span class="emoji" aria-hidden="true">${c.emoji}</span>
         <span class="cat">${esc(c.cat)}</span>
@@ -121,7 +116,7 @@ function cursos(){
           <span><b>Nível</b>${esc(c.nivel)}</span>
           <span><b>Duração</b>${esc(c.duracao)}</span>
         </div>
-        <div class="preco"><b>${fmt(c.preco)}</b>${c.antes ? `<s>${fmt(c.antes)}</s>` : ""}</div>
+        <div class="preco"><b>${fmt(c.preco)}</b>${c.antes ? <s>${fmt(c.antes)}</s> : ""}</div>
         <button class="btn" type="button" data-add="${c.id}">Adicionar ao pedido</button>
       </div>
     </article>`).join("");
@@ -145,7 +140,7 @@ function pedido(){
       <span class="qtd"><button type="button" data-menos="${id}" aria-label="Menos">−</button>${q}<button type="button" data-mais="${id}" aria-label="Mais">+</button></span>
       <span>${fmt(c.preco * q)}</span>
     </div>`;
-  }).join("") : `<p class="vazio">Ainda não escolheste nenhum curso.</p>`;
+  }).join("") : <p class="vazio">Ainda não escolheste nenhum curso.</p>;
   $("total").textContent = fmt(total);
   $("itens").querySelectorAll("[data-menos]").forEach(b => b.onclick = () => mudar(+b.dataset.menos, -1));
   $("itens").querySelectorAll("[data-mais]").forEach(b => b.onclick = () => mudar(+b.dataset.mais, 1));
@@ -158,7 +153,7 @@ $("enviar").onclick = () => {
   const linhas = ids.map(id => {
     const c = CURSOS.find(x => x.id === id), q = carrinho[id];
     total += c.preco * q;
-    return `• ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)`};
+    return • ${q}x ${c.nome} (${c.nivel}, ${c.duracao}) - ${fmt(c.preco * q)};
   });
   const nome = $("nome").value.trim(), horario = $("horario").value.trim();
   let msg = "Olá! Tenho interesse nestes cursos:\n" + linhas.join("\n") + "\nTotal: " + fmt(total);

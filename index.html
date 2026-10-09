@@ -104,7 +104,7 @@ function chips(){
 function cursos(){
   const lista = CURSOS.filter(c => categoria === "Todos" || c.cat === categoria);
   $("grelha").innerHTML = lista.map(c => `<article class="prod">
-      ${c.selo ? <span class="selo">${esc(c.selo)}</span> : ""}
+      ${c.selo ? `<span class="selo">${esc(c.selo)}</span>` : ""}
       <div class="topo" style="--cor:${c.cor}">
         <span class="emoji" aria-hidden="true">${c.emoji}</span>
         <span class="cat">${esc(c.cat)}</span>
